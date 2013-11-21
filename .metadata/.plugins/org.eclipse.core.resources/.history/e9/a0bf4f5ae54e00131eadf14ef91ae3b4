@@ -1,0 +1,200 @@
+import java.util.Scanner;
+
+
+public class Parcial2 {
+
+	
+
+	
+	int suma2 = 1;
+	int sumaImpares (int n)
+	{
+		if(n==1)
+			return suma2;
+		else
+		{
+		suma2 = suma2 + suma2;
+		sumaImpares(n-1);
+		}
+		return suma2;
+	}
+	
+	
+		
+	class Nodo {
+		int info;
+		Nodo izq;
+		Nodo der;
+	}
+	
+	Nodo raiz = null;
+	
+	void insertar(int dato)
+	{
+		Nodo nuevo = new Nodo();
+		nuevo.info = dato;
+		nuevo.izq = null;
+		nuevo.der = null;
+		if(raiz==null)
+			raiz = nuevo;
+		else
+		{
+				Nodo reco = raiz;
+				Nodo ante = null;
+				while(reco!=null)
+				{
+					ante = reco;
+				if(dato<reco.info)
+					reco=reco.izq;
+				else
+					reco=reco.der;
+					
+			}
+				if(dato<ante.info)
+					ante.izq = nuevo;
+				else
+					ante.der = nuevo;
+		}
+	}
+	
+	void imprimirEntre(Nodo reco)
+	{
+		if (reco != null)
+		{
+			
+			
+			imprimirEntre(reco.izq);
+			System.out.print(reco.info + " - ");
+			imprimirEntre(reco.der);
+		}
+	}
+	
+	void imprimirEntre()
+	{
+		imprimirEntre(raiz);
+	}
+	
+	int cantidad = 0;
+	int cantidadNodoIzq(Nodo reco)
+	{
+		if(reco!=null)
+		{
+			cantidad++;
+		cantidadNodoIzq(reco.izq);
+		cantidadNodoIzq(reco.der);
+	}
+		return cantidad;
+	}
+	
+	int cantidadNodoIzq2()
+	{
+		return  cantidadNodoIzq(raiz.izq);
+		}
+	
+	int cantidad1 = 0;
+	int cantidadNodoDer(Nodo reco)
+	{
+		if(reco!=null)
+		{
+			cantidad1++;
+		cantidadNodoDer(reco.izq);
+		cantidadNodoDer(reco.der);
+	}
+		return cantidad1;
+	}
+	
+	int cantidadNodoDer2()
+	{
+		return  cantidadNodoDer(raiz.der);
+		}
+	
+	void CualEsMayor()
+	{
+		if (cantidad > cantidad1)
+			System.out.println("El lado izqierdo es mayor");
+		else
+			if(cantidad1> cantidad)
+				System.out.println("El lado derecho es mayor");
+			else
+				System.out.println("Son iguales");
+	}
+	
+	int suma = 0;
+	int sumaNodos(Nodo reco, int nivel, int nivelx)
+	{
+		
+		if(reco!= null)
+		{
+			if(nivelx==nivel)
+				suma = suma + reco.info;
+			sumaNodos(reco.izq, nivel + 1, nivelx);
+			sumaNodos(reco.der, nivel + 1, nivelx);
+			
+		}
+			return suma;
+	}
+	
+	
+	
+	void sumaNodos()
+	{
+		Scanner teclado = new Scanner (System.in);
+		System.out.print("Ingrese el nivel: ");
+		int nivelx = teclado.nextInt();
+		sumaNodos(raiz, 1, nivelx);
+		System.out.println("La suma de los nodos del nivel es: " + suma);
+	}
+	
+	
+	void buscarNodo(Nodo reco, int valor)
+	{
+		
+		if(reco != null)
+		{
+			if(valor == reco.info)
+			{
+				if(reco.izq == null && reco.der == null)
+					System.out.println("El nodo no es interno");
+					else
+						System.out.println("El nodo es interno");	
+			}
+			buscarNodo(reco.izq, valor);
+			buscarNodo(reco.der, valor);
+				
+		}
+		
+	}
+	
+	void buscarNodo()
+	{
+		Scanner teclado = new Scanner (System.in);
+		System.out.print("Ingrese el valor: ");
+		int valor = teclado.nextInt();
+		buscarNodo(raiz, valor);
+	}
+	
+	public static void main(String[] args) {
+		
+		Parcial2 p = new Parcial2();
+		p.insertar(10);
+		p.insertar(12);
+		p.insertar(11);
+		p.insertar(8);
+		p.insertar(6);
+		p.insertar(7);
+		p.imprimirEntre();
+		System.out.println();
+		System.out.println("La cantidad de nodos en el lado izquierdo es: " + p.cantidadNodoIzq2());
+		System.out.println("La cantidad de nodos en el lado derecho es: " + p.cantidadNodoDer2());
+		p.CualEsMayor();
+		//p.sumaNodos();
+		//p.buscarNodo();
+		System.out.println(p.sumaImpares(3));
+		
+		
+		
+		
+
+	}
+
+}
